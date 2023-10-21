@@ -17,7 +17,6 @@ interface IERC20 {
     function transferFrom(address from, address to, uint256 amount) external returns (bool);
 }
 
-
 interface ITrandingCenter {
     /**
      * @dev deposit the specific amount of ERC20 token to the contract
@@ -40,9 +39,9 @@ interface ITrandingCenter {
 }
 
 contract TrandingCenter is ITrandingCenter {
-    mapping (address => uint256) public _tokenBalance;
-    mapping (address => mapping(address => uint256)) _userTokenBalance;
-    
+    mapping(address => uint256) public _tokenBalance;
+    mapping(address => mapping(address => uint256)) _userTokenBalance;
+
     address private bcTokenAddress = 0x61e4ee1bC4B1A88AfA929C6c0a942894149226C1;
     IERC20 private bcToken = IERC20(bcTokenAddress);
 
@@ -52,23 +51,23 @@ contract TrandingCenter is ITrandingCenter {
 
         bcToken.transferFrom(msg.sender, address(this), amount);
         _tokenBalance[bcTokenAddress] += amount;
-        _userTokenBalance[msg.sender][bcTokenAddress]+= amount;
+        _userTokenBalance[msg.sender][bcTokenAddress] += amount;
     }
-    
-    function exchange(address token, uint256 amount) external{
+
+    function exchange(address token, uint256 amount) external {
         require(_tokenBalance[bcTokenAddress] >= amount, "Insufficient deposit");
         require(_userTokenBalance[msg.sender][bcTokenAddress] >= amount, "Insufficient deposit");
 
         IERC20(token).transferFrom(msg.sender, address(this), amount);
         _tokenBalance[token] += amount;
-        _userTokenBalance[msg.sender][token]+= amount;
+        _userTokenBalance[msg.sender][token] += amount;
 
         _tokenBalance[bcTokenAddress] -= amount;
-        _userTokenBalance[msg.sender][bcTokenAddress]-= amount;
+        _userTokenBalance[msg.sender][bcTokenAddress] -= amount;
         bcToken.transfer(msg.sender, amount);
     }
 
-    function getDepositAmount() external view returns (uint256){
+    function getDepositAmount() external view returns (uint256) {
         return _userTokenBalance[msg.sender][bcTokenAddress];
     }
 }

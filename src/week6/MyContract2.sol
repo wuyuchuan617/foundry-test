@@ -16,3 +16,9 @@ contract MyContract2 is MyContract {
         emit Send(to, amount);
     }
 }
+
+// nonce in transaction nit in receipt
+
+// EVM 架構中有哪些元件？(8分)
+
+// mapping(address=>struct) whitelist;

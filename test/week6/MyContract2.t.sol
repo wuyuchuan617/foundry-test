@@ -51,6 +51,6 @@ contract CounterTest is Test {
         instance.sendEther(user1, 1e18);
         assertEq(address(user1).balance, 1e18);
 
-        vm.stopPrank();      
+        vm.stopPrank();
     }
 }

@@ -17,7 +17,7 @@ contract PokemonGame {
 
     mapping(address => Player) public players;
 
-    function createPokemon (string memory name, uint8 attack, uint8 defense) external {
+    function createPokemon(string memory name, uint8 attack, uint8 defense) external {
         Player storage player = players[msg.sender];
         player.pokemonCount++;
         player.pokemons[player.pokemonCount] = Pokemon(name, attack, defense);
@@ -27,7 +27,7 @@ contract PokemonGame {
         Player storage player = players[msg.sender];
 
         require(msg.value == 0.1 ether, "Need 0.1 ETH");
-        require(pokemonId<= player.pokemonCount, "Invalid Pokemon ID");
+        require(pokemonId <= player.pokemonCount, "Invalid Pokemon ID");
 
         Pokemon storage pokemon = player.pokemons[pokemonId];
         pokemon.attack = newAttack;
@@ -41,7 +41,6 @@ contract PokemonGame {
         return playerInfo.pokemons[pokemonId];
     }
 
-
     function getPlayerPokemons(address player) public view returns (Pokemon[] memory) {
         Player storage playerInfo = players[player];
         uint256 pokemonCount = playerInfo.pokemonCount;
@@ -54,4 +53,4 @@ contract PokemonGame {
 
         return result;
     }
-} 
+}

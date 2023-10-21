@@ -39,7 +39,7 @@ contract WETHTest is Test {
         // 測項 2: deposit 應該將 msg.value 的 ether 轉入合約
         assertEq(address(instance).balance, 1 ether);
 
-        // 測項 1: deposit 應該將與 msg.value 相等的 ERC20 token mint 給 user  
+        // 測項 1: deposit 應該將與 msg.value 相等的 ERC20 token mint 給 user
         assertEq(instance.balanceOf(user1), 1e18);
 
         // 測項 12: transfer 應該要 emit Transfer event
@@ -72,7 +72,7 @@ contract WETHTest is Test {
         // 測項 14: withdraw 超過 balnace 應該要出現 Error "Insufficient balance"
         vm.expectRevert("Insufficient balance");
         instance.withdraw(1 ether);
-        vm.stopPrank();        
+        vm.stopPrank();
     }
 
     function testApprove() public {

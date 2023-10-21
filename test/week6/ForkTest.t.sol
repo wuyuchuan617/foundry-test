@@ -25,7 +25,7 @@ contract ForkTest is Test {
 
         uint256 beforeBalance = address(BAYC).balance;
 
-        for(uint i = 0; i <5; i++){
+        for (uint256 i = 0; i < 5; i++) {
             (bool success,) = address(BAYC).call{value: 1.6 ether}(abi.encodeWithSignature("mintApe(uint256)", 20));
             require(success);
         }
@@ -41,4 +41,4 @@ contract ForkTest is Test {
     }
 }
 
-// forge test --fork-url https://eth-mainnet.g.alchemy.com/v2/S7FGzEEsfVR6BassdzCaK8PLJXl53ZTo 
+// forge test --fork-url https://eth-mainnet.g.alchemy.com/v2/S7FGzEEsfVR6BassdzCaK8PLJXl53ZTo

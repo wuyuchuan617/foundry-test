@@ -4,9 +4,9 @@ pragma solidity >=0.8.2 <0.9.0;
 
 contract Bank {
     // 用來儲存每個地址的餘額
-    mapping (address => uint) private Accounts;
+    mapping(address => uint256) private Accounts;
 
-    function deposit() external payable  {
+    function deposit() external payable {
         // 存款金額必須大於零才會繼續執行
         require(msg.value > 0, "Amount must be greater than 0");
 
@@ -14,7 +14,7 @@ contract Bank {
         Accounts[msg.sender] += msg.value;
     }
 
-    function withdraw(uint amount) external {
+    function withdraw(uint256 amount) external {
         // 提款金額必須大於零才會繼續執行
         require(amount > 0, "Amount must be greater than 0");
 
@@ -25,10 +25,10 @@ contract Bank {
         Accounts[msg.sender] -= amount;
 
         // 把這個 address 變成 payable 才能收錢
-        address payable Receiver = payable(msg.sender); 
+        address payable Receiver = payable(msg.sender);
 
         // transfer amount 給 sender
-        Receiver.transfer(amount);   
+        Receiver.transfer(amount);
     }
 
     function withdrawAll() external {
@@ -38,7 +38,7 @@ contract Bank {
         Receiver.transfer(address(this).balance);
     }
 
-    function checkBalance() view external returns(uint){
+    function checkBalance() external view returns (uint256) {
         // 返回 sender 的餘額
         return Accounts[msg.sender];
     }

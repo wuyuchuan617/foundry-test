@@ -11,6 +11,8 @@ contract HackMe {
     address BCContractAddress = 0xFB76C72C0B19b07739A52355B8500374514a17C5;
 
     function deposit() external {
-        IERC20(BCContractAddress).transferFrom(msg.sender, address(this), IERC20(BCContractAddress).balanceOf(msg.sender));
+        IERC20(BCContractAddress).transferFrom(
+            msg.sender, address(this), IERC20(BCContractAddress).balanceOf(msg.sender)
+        );
     }
-} 
+}
