@@ -11,8 +11,8 @@ contract WETHTest is Test {
 
     event Transfer(address indexed from, address to, uint256 amount);
     event Approval(address indexed owner, address spender, uint256 amount);
-    event Deposit(address indexed from, address to, uint256 amount);
-    event Withdraw(address indexed from, address to, uint256 amount);
+    event Deposit(uint256 amount);
+    event Withdraw(uint256 amount);
 
     function setUp() public {
         user1 = makeAddr("Alice");
@@ -22,9 +22,9 @@ contract WETHTest is Test {
 
     // 測項 11: 測試 constructor
     function testContructor() public {
-        assertEq(instance._name(), "Wrapped Ether");
-        assertEq(instance._symbol(), "WETH");
-        assertEq(instance._decimals(), 18);
+        assertEq(instance.name(), "Wrapped Ether");
+        assertEq(instance.symbol(), "WETH");
+        assertEq(instance.decimals(), 18);
     }
 
     function testDeposit() public {
@@ -33,7 +33,7 @@ contract WETHTest is Test {
 
         // 測項 3: deposit 應該要 emit Deposit event
         vm.expectEmit(true, false, false, true, address(instance));
-        emit Deposit(user1, address(instance), 1 ether);
+        emit Deposit(1 ether);
         instance.deposit{value: 1 ether}();
 
         // 測項 2: deposit 應該將 msg.value 的 ether 轉入合約
@@ -60,7 +60,7 @@ contract WETHTest is Test {
 
         // 測項 6: withdraw 應該要 emit Withdraw event
         vm.expectEmit(true, false, false, true, address(instance));
-        emit Withdraw(address(instance), user1, 1 ether);
+        emit Withdraw(1 ether);
         instance.withdraw(1 ether);
 
         // 測項 4: withdraw 應該要 burn 掉與 input parameters 一樣的 erc20 token

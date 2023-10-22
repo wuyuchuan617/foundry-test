@@ -15,20 +15,20 @@ interface IERC20 {
 }
 
 contract WETH is IERC20 {
-    event Withdraw(address indexed from, address to, uint256 amount);
-    event Deposit(address indexed from, address to, uint256 amount);
+    event Withdraw(uint256 amount);
+    event Deposit(uint256 amount);
 
-    string public _name;
-    string public _symbol;
-    uint256 public _decimals;
+    string public name;
+    string public symbol;
+    uint256 public decimals;
     uint256 public _totalSupply;
     mapping(address => uint256) public _balanceOf;
     mapping(address => mapping(address => uint256)) public _allowance;
 
-    constructor(string memory name, string memory symbol, uint256 decimals, uint256 initialSupply) {
-        _name = name;
-        _symbol = symbol;
-        _decimals = decimals;
+    constructor(string memory _name, string memory _symbol, uint256 _decimals, uint256 initialSupply) {
+        name = _name;
+        symbol = _symbol;
+        decimals = _decimals;
         _totalSupply = initialSupply;
     }
 
@@ -74,7 +74,7 @@ contract WETH is IERC20 {
     function deposit() external payable returns (bool) {
         _balanceOf[msg.sender] += msg.value;
         _totalSupply += msg.value;
-        emit Deposit(msg.sender, address(this), msg.value);
+        emit Deposit(msg.value);
         return true;
     }
 
@@ -83,7 +83,7 @@ contract WETH is IERC20 {
         _balanceOf[msg.sender] -= amount;
         _totalSupply -= amount;
         payable(msg.sender).transfer(amount);
-        emit Withdraw(address(this), msg.sender, amount);
+        emit Withdraw(amount);
         emit Transfer(address(this), msg.sender, amount);
         return true;
     }
@@ -91,14 +91,14 @@ contract WETH is IERC20 {
     function mint(uint256 amount) external returns (bool) {
         _totalSupply += amount;
         _balanceOf[msg.sender] += amount;
-        emit Transfer(address(0), address(this), amount);
+        emit Transfer(address(0), msg.sender, amount);
         return true;
     }
 
     function burn(uint256 amount) external returns (bool) {
         _totalSupply -= amount;
         _balanceOf[msg.sender] -= amount;
-        emit Transfer(address(this), address(0), amount);
+        emit Transfer(msg.sender, address(0), amount);
         return true;
     }
 }
